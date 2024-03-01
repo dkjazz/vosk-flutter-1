@@ -2,6 +2,7 @@ PODS:
   - Flutter (1.0.0)
   - integration_test (0.0.1):
     - Flutter
+  - libvosk (0.0.1)
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -11,10 +12,12 @@ PODS:
     - Flutter
   - vosk_flutter (0.0.1):
     - Flutter
+    - libvosk
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - libvosk (from `./../../ios/libvosk.podspec`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - record (from `.symlinks/plugins/record/ios`)
@@ -25,6 +28,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
+  libvosk:
+    :podspec: "./../../ios/libvosk.podspec"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
@@ -34,14 +39,20 @@ EXTERNAL SOURCES:
   vosk_flutter:
     :path: ".symlinks/plugins/vosk_flutter/ios"
 
+CHECKOUT OPTIONS:
+  libvosk:
+    :commit: ad8e682025cf4639eed2b3c41e1c1fba79ec68c0
+    :git: https://github.com/dkjazz/test
+
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   integration_test: 13825b8a9334a850581300559b8839134b124670
+  libvosk: 2a8a30096a1f0f985c5635bc99caae8301b25a0f
   path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   record: cae05d8dd3cdb1dea3511b20e5a5811a1ae00d0d
-  vosk_flutter: af8616b941b7e0115901dfcd8323683bc49f3acf
+  vosk_flutter: c12b401a759334713718f7eca0aa8f83ba96a10c
 
-PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+PODFILE CHECKSUM: 6bc34602194f6954de4f1cf2b7678eee39923e0c
 
 COCOAPODS: 1.15.2

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A38C43E2B91810D00B0FEFB /* libvosk.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A38C43D2B91810D00B0FEFB /* libvosk.xcframework */; };
+		0A38C43F2B91810D00B0FEFB /* libvosk.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A38C43D2B91810D00B0FEFB /* libvosk.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		361D6F6E6E2D710D96C363E4 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D8A175CCF675D0BF06EB89 /* Pods_Runner.framework */; };
@@ -35,6 +37,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0A38C43F2B91810D00B0FEFB /* libvosk.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -42,6 +45,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A38C43D2B91810D00B0FEFB /* libvosk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libvosk.xcframework; path = Pods/libvosk/libvosk.xcframework; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		3226C0299CC23EFE41624925 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
@@ -80,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A38C43E2B91810D00B0FEFB /* libvosk.xcframework in Frameworks */,
 				361D6F6E6E2D710D96C363E4 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -90,6 +95,7 @@
 		19C6166D27AACB024C28AA84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A38C43D2B91810D00B0FEFB /* libvosk.xcframework */,
 				F2D8A175CCF675D0BF06EB89 /* Pods_Runner.framework */,
 				E4458DB64EF9A4DDFE665472 /* Pods_RunnerTests.framework */,
 			);
@@ -161,7 +167,6 @@
 				AFCD37F9D803E5B0C21C152A /* Pods-RunnerTests.release.xcconfig */,
 				4CB4A9F751AE9D6795E43E4B /* Pods-RunnerTests.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

@@ -15,7 +15,11 @@ A new Flutter plugin project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
+  s.dependency 'libvosk'
   s.platform = :ios, '11.0'
+
+  # including system libraries
+  s.libraries = 'c++'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
