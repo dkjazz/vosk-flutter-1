@@ -8,6 +8,7 @@ import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:stdlibc/stdlibc.dart';
 import 'package:vosk_flutter/src/generated_vosk_bindings.dart';
 import 'package:vosk_flutter/src/utils.dart';
 import 'package:vosk_flutter/vosk_flutter.dart';
@@ -141,12 +142,13 @@ class VoskFlutterPlugin {
     }
   }
 
-  bool _supportsFFI() => Platform.isLinux || Platform.isWindows;
+  bool _supportsFFI() =>
+      Platform.isLinux || Platform.isIOS || Platform.isWindows;
 
   static VoskLibrary _loadVoskLibrary() {
     String libraryPath;
-    if (Platform.isLinux) {
-      libraryPath = Platform.environment['LIBVOSK_PATH']!;
+    if (Platform.isLinux || Platform.isIOS) {
+      libraryPath = getenv('LIBVOSK_PATH')!;
     } else if (Platform.isWindows) {
       libraryPath = 'libvosk.dll';
     } else {
