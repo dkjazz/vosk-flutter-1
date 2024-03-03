@@ -155,7 +155,7 @@ class VoskFlutterPlugin {
       throw UnsupportedError('Unsupported platform');
     }
 
-    final dylib = DynamicLibrary.open(libraryPath);
+    final dylib = DynamicLibrary.executable();
     return VoskLibrary(dylib);
   }
 
