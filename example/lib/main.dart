@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:record/record.dart';
 import 'package:vosk_flutter/vosk_flutter.dart';
 import 'package:vosk_flutter_example/test_screen.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -61,7 +62,7 @@ class _VoskFlutterDemoState extends State<VoskFlutterDemo> {
             model: _model!, sampleRate: _sampleRate)) // create recognizer
         .then((value) => _recognizer = value)
         .then((recognizer) {
-      if (Platform.isAndroid) {
+      if (Platform.isAndroid || Platform.isIOS) {
         _vosk
             .initSpeechService(_recognizer!) // init speech service
             .then((speechService) =>
@@ -154,8 +155,18 @@ class _VoskFlutterDemoState extends State<VoskFlutterDemo> {
 
   Future<void> _recordAudio() async {
     try {
-      await _recorder.start(
-          samplingRate: 16000, encoder: AudioEncoder.wav, numChannels: 1);
+      // Check and request permission if needed
+      if (await _recorder.hasPermission()) {
+        final Directory tempDir = await getTemporaryDirectory();
+        String tempPath = tempDir.path;
+        String filePath = '$tempPath/file.wav';
+
+        await _recorder.start(
+            path: filePath,
+            samplingRate: 16000,
+            encoder: AudioEncoder.wav,
+            numChannels: 1);
+      }
     } catch (e) {
       _error = e.toString() +
           '\n\n Make sure fmedia(https://stsaz.github.io/fmedia/)'

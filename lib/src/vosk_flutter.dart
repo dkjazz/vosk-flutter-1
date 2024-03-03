@@ -146,17 +146,20 @@ class VoskFlutterPlugin {
       Platform.isLinux || Platform.isIOS || Platform.isWindows;
 
   static VoskLibrary _loadVoskLibrary() {
-    String libraryPath;
-    if (Platform.isLinux || Platform.isIOS) {
+    String libraryPath = '';
+    if (Platform.isLinux) {
       libraryPath = getenv('LIBVOSK_PATH')!;
     } else if (Platform.isWindows) {
       libraryPath = 'libvosk.dll';
+    } else if (Platform.isIOS) {
+      // The lib is statically linked to the app
     } else {
       throw UnsupportedError('Unsupported platform');
     }
 
-    final dylib = DynamicLibrary.executable();
-    return VoskLibrary(dylib);
+    return VoskLibrary(libraryPath.isEmpty
+        ? DynamicLibrary.executable()
+        : DynamicLibrary.open(libraryPath));
   }
 
   /// Method used to load a model in a separate isolate.

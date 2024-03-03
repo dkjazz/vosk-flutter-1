@@ -20,6 +20,7 @@ dependencies:
 
   wav: ^1.2.0
   record: ^4.4.4
+  path_provider: ^2.1.2
 
 dev_dependencies:
   flutter_test:
