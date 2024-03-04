@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:mic_stream/mic_stream.dart';
 import 'package:record/record.dart';
 import 'package:vosk_flutter/vosk_flutter.dart';
-import 'package:vosk_flutter_example/test_screen.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() {
@@ -35,13 +35,14 @@ class _VoskFlutterDemoState extends State<VoskFlutterDemo> {
 
   final _vosk = VoskFlutterPlugin.instance();
   final _modelLoader = ModelLoader();
-  final _recorder = Record();
+  final _recorder = AudioRecorder();
 
   String? _fileRecognitionResult;
   String? _error;
   Model? _model;
   Recognizer? _recognizer;
   SpeechService? _speechService;
+  SpeechService2? _speechService2;
 
   bool _recognitionStarted = false;
 
@@ -62,7 +63,9 @@ class _VoskFlutterDemoState extends State<VoskFlutterDemo> {
             model: _model!, sampleRate: _sampleRate)) // create recognizer
         .then((value) => _recognizer = value)
         .then((recognizer) {
-      if (Platform.isAndroid || Platform.isIOS) {
+      if (Platform.isIOS) {
+        _speechService2 = SpeechService2(_recognizer!);
+      } else if (Platform.isAndroid) {
         _vosk
             .initSpeechService(_recognizer!) // init speech service
             .then((speechService) =>
@@ -89,8 +92,15 @@ class _VoskFlutterDemoState extends State<VoskFlutterDemo> {
           child: Text("Initializing speech service...", style: _textStyle),
         ),
       );
+    }
+    if (Platform.isIOS && _speechService2 == null) {
+      return const Scaffold(
+        body: Center(
+          child: Text("Initializing speech service...", style: _textStyle),
+        ),
+      );
     } else {
-      return Platform.isAndroid ? _androidExample() : _commonExample();
+      return Platform.isIOS ? _androidExample() : _commonExample();
     }
   }
 
@@ -103,9 +113,25 @@ class _VoskFlutterDemoState extends State<VoskFlutterDemo> {
             ElevatedButton(
                 onPressed: () async {
                   if (_recognitionStarted) {
-                    await _speechService!.stop();
+                    Platform.isIOS
+                        ? await _speechService2!.stop()
+                        : await _speechService!.stop();
                   } else {
-                    await _speechService!.start();
+                    if (Platform.isIOS) {
+                      final stream = await _recorder.startStream(
+                          const RecordConfig(encoder: AudioEncoder.pcm16bits));
+                      _speechService2!.start(stream);
+
+                      /*final micStream = await MicStream.microphone(
+                          audioFormat: AudioFormat.ENCODING_PCM_16BIT);
+                      if (micStream != null) {
+                        _speechService2!.start(stream);
+                      } else {
+                        _error = "Can't access microphone";
+                      }*/
+                    } else {
+                      await _speechService!.start();
+                    }
                   }
                   setState(() => _recognitionStarted = !_recognitionStarted);
                 },
@@ -113,12 +139,16 @@ class _VoskFlutterDemoState extends State<VoskFlutterDemo> {
                     ? "Stop recognition"
                     : "Start recognition")),
             StreamBuilder(
-                stream: _speechService!.onPartial(),
+                stream: Platform.isIOS
+                    ? _speechService2!.onPartial()
+                    : _speechService!.onPartial(),
                 builder: (context, snapshot) => Text(
                     "Partial result: ${snapshot.data.toString()}",
                     style: _textStyle)),
             StreamBuilder(
-                stream: _speechService!.onResult(),
+                stream: Platform.isIOS
+                    ? _speechService2!.onResult()
+                    : _speechService!.onResult(),
                 builder: (context, snapshot) => Text(
                     "Result: ${snapshot.data.toString()}",
                     style: _textStyle)),
@@ -162,10 +192,10 @@ class _VoskFlutterDemoState extends State<VoskFlutterDemo> {
         String filePath = '$tempPath/file.wav';
 
         await _recorder.start(
-            path: filePath,
-            samplingRate: 16000,
-            encoder: AudioEncoder.wav,
-            numChannels: 1);
+          const RecordConfig(
+              sampleRate: 16000, encoder: AudioEncoder.wav, numChannels: 1),
+          path: filePath,
+        );
       }
     } catch (e) {
       _error = e.toString() +

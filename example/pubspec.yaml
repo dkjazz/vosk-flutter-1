@@ -19,8 +19,9 @@ dependencies:
     path: ../
 
   wav: ^1.2.0
-  record: ^4.4.4
+  record: ^5.0.4
   path_provider: ^2.1.2
+  mic_stream: ^0.6.5
 
 dev_dependencies:
   flutter_test:
