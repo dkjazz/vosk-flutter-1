@@ -119,7 +119,10 @@ class _VoskFlutterDemoState extends State<VoskFlutterDemo> {
                   } else {
                     if (Platform.isIOS) {
                       final stream = await _recorder.startStream(
-                          const RecordConfig(encoder: AudioEncoder.pcm16bits));
+                          const RecordConfig(
+                              encoder: AudioEncoder.pcm16bits,
+                              sampleRate: 16000,
+                              numChannels: 1));
                       _speechService2!.start(stream);
 
                       /*final micStream = await MicStream.microphone(
